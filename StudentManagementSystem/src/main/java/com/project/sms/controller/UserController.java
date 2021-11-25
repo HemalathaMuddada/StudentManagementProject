@@ -7,7 +7,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,20 +44,16 @@ private UserDetailsServiceImpl detailsServiceImpl;
         return new ResponseEntity<>(headers, HttpStatus.FOUND);
     }
 
-	@RequestMapping(value="/user/{id}",method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(value = HttpStatus.OK)
-    public ResponseEntity<?> delete(@RequestBody User user) {
-        detailsServiceImpl.delete(user);
-        HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<>(headers, HttpStatus.FOUND);
-    }
-	
-	@RequestMapping(value="/user/{id}",method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(value = HttpStatus.OK)
-    public ResponseEntity<?> update(@RequestBody User user) {
-        detailsServiceImpl.update(user);
-        HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<>(headers, HttpStatus.FOUND);
-    }
+	@PutMapping("/edit/{id}")
+	private User update(@RequestBody User users,@PathVariable int id) {
+		users.setId(id);
+		detailsServiceImpl.update(users);
+			return users;
+		}
+		
+		@DeleteMapping("delete/{id}")
+		private void deleteusers(@PathVariable ("id") int id) {
+			detailsServiceImpl.delete(id);
+		}
 
 }

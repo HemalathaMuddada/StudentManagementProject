@@ -2,10 +2,12 @@ package com.project.sms.service;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,15 +17,15 @@ import com.project.sms.repository.UserRepository;
 
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService,UserService {
 
 	@Autowired
-	private UserRepository userRepository;
+	private UserRepository repository;
 
 	@Override
 	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.findByUsername(username);
+		User user =repository.findByUsername(username);
 
 		if (user != null) {
 			return user;
@@ -32,30 +34,42 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		throw new UsernameNotFoundException(username);
 	}
 	
-	@Transactional(readOnly = true)
-	 public List<User> getAll() {
-		 return userRepository.findAll();
-	 }
-	
+
+	@Override
+    @Transactional(readOnly = true)
+	public List<User> getAll() {
+		// TODO Auto-generated method stub
+		return repository.findAll();
+	}
+
+	@Override
 	@Transactional
 	public void create(User user) {
-
-		userRepository.save(user);
+		 String hashPassword(String plainTextPassword){
+		 BCrypt.hashpw(plainTextPassword, BCrypt.gensalt());
+		}
+	  repository.save(user);
+		
 	}
-	
+
+	@Override
 	@Transactional
 	public User update(User user) {
-		return userRepository.save(user);
+		// TODO Auto-generated method stub
+		return repository.save(user);
 	}
-	
+	//Deleting Details........
+	@Override
 	@Transactional
-	public void delete(Long id) {
-	 userRepository.delete(id);
+	public void delete(int id) {
+	repository.deleteById(id);
 	}
-	@Transactional
+	/*@Override
 	public void delete(User user) {
-		userRepository.delete(user);
-	}
+		repository.delete(user);
+		
+	}*/
+
 
 
 }

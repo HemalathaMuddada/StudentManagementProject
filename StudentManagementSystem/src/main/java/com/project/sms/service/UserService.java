@@ -11,8 +11,8 @@ public List<User> getAll();
 	
 	public User update(User user);
 	
-	 public void delete(Long id);
+	 public void delete(int id);
 	 
-	 public void delete(User user);
+//	 public void delete(User user);
 
 }

@@ -1,4 +1,4 @@
-package com.project.sms.service;
+/*package com.project.sms.service;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,14 +32,12 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return repository.save(user);
 	}
-
+	//Deleting Details........
 	@Override
 	@Transactional
 	public void delete(Long id) {
-		repository.delete(id);
-		
+	repository.deleteById(id);
 	}
-
 	@Override
 	public void delete(User user) {
 		repository.delete(user);
@@ -47,4 +45,4 @@ public class UserServiceImpl implements UserService {
 	}
 
 
-}
+}*/

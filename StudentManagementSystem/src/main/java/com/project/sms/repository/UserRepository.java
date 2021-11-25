@@ -15,7 +15,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	            "INNER JOIN FETCH user.authorities AS authorities " +
 	            "WHERE user.username = :username")
 	    User findByUsername(@Param("username") String username);
-	  @Query("delete from User where id=:id")
-		public void delete(@Param("id")Long id);
+	 // @Query("delete from User where id=:id")
+		public void deleteById(@Param("id")int id);
+	//public void deleteById(int id);
 
 }
