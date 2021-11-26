@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -47,7 +48,7 @@ public class User implements UserDetails, Serializable {
 	
 	@Column(name="user_name")
 	private String username;
-	
+	@Embedded
 	@Column(name="password")
 	private String password;
 	

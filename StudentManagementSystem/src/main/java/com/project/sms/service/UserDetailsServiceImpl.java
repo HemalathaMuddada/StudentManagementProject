@@ -17,7 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.project.sms.email.UserCreatedEvent;
+import com.project.sms.mail.UserCreatedEvent;
+//import com.project.sms.email.UserCreatedEvent;
 import com.project.sms.model.RoleType;
 import com.project.sms.model.User;
 import com.project.sms.repository.UserRepository;
@@ -29,6 +30,7 @@ public class UserDetailsServiceImpl implements UserDetailsService,UserService {
 
 @Autowired
 private  ApplicationEventPublisher publisher;
+
 	@Override
 	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -45,7 +47,7 @@ private  ApplicationEventPublisher publisher;
 	@Override
     @Transactional(readOnly = true)
 	public List<User> getAll() {
-		// TODO Auto-generated method stub
+
 		return repository.findAll();
 	}
 
@@ -70,14 +72,13 @@ private  ApplicationEventPublisher publisher;
 
 	public UserDetailsServiceImpl() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 
 	@Override
 	@Transactional
 	public User update(User user) {
-		// TODO Auto-generated method stub
+
 		return repository.save(user);
 	}
 	//Deleting Details........
@@ -86,11 +87,7 @@ private  ApplicationEventPublisher publisher;
 	public void delete(int id) {
 	repository.deleteById(id);
 	}
-	/*@Override
-	public void delete(User user) {
-		repository.delete(user);
-		
-	}*/
+	
 
 
 
