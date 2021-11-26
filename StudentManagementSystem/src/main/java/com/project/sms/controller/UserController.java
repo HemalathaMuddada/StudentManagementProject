@@ -41,8 +41,9 @@ private UserDetailsServiceImpl detailsServiceImpl;
     public ResponseEntity<?> create(@RequestBody User user) {
         detailsServiceImpl.create(user);
         HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<>(headers, HttpStatus.FOUND);
+        return new ResponseEntity<>(headers, HttpStatus.FOUND).ok().build();
     }
+
 
 	@PutMapping("/edit/{id}")
 	private User update(@RequestBody User users,@PathVariable int id) {

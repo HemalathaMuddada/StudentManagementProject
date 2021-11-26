@@ -1,4 +1,4 @@
-package com.project.sms.security.config.oauth2;
+package com.project.sms.email;
 import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;

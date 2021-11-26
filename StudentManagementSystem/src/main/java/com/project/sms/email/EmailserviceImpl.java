@@ -1,4 +1,5 @@
-package com.project.sms.service;
+package com.project.sms.email;
+
 
 import java.io.UnsupportedEncodingException;
 
@@ -10,10 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-
-import com.project.sms.model.Email;
-@Service("mailService")
-public class EmailServiceImpl implements EmailService {
+@Service
+public class EmailserviceImpl implements EmailService {
 
 	
 	@Autowired
@@ -39,5 +38,6 @@ public class EmailServiceImpl implements EmailService {
             e.printStackTrace();
         }
     }
-}
 
+	
+}
