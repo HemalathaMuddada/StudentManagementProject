@@ -3,11 +3,12 @@ package com.project.sms.model;
 import java.util.Random;
 
 import javax.persistence.Embeddable;
-@Embeddable
+
+import org.springframework.stereotype.Component;
+@Component("RandomPassword")
 public class PasswordGenerator {
-	public static String generateRandomPassword(int len) {
-		String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghi"
-          +"jklmnopqrstuvwxyz!@#$%&";
+	public String generateRandomPassword(int len) {
+		String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%&";
 		Random rnd = new Random();
 		StringBuilder sb = new StringBuilder(len);
 		for (int i = 0; i < len; i++)

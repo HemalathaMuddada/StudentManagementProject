@@ -2,7 +2,10 @@ package com.project.sms.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,13 +27,6 @@ import com.project.sms.service.UserDetailsServiceImpl;
 public class UserController {
 	@Autowired
 private UserDetailsServiceImpl detailsServiceImpl; 
-	
-	/*public UserController(UserDetailsServiceImpl detailsServiceImpl) {
-
-		this.detailsServiceImpl = detailsServiceImpl;
-	}
-	*/
-
 	@GetMapping(value="/user")
     public List<User> getAll() {
         return detailsServiceImpl.getAll();
@@ -38,7 +34,7 @@ private UserDetailsServiceImpl detailsServiceImpl;
 	
 	@RequestMapping(value="/user",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public ResponseEntity<?> create(@RequestBody User user) {
+    public ResponseEntity<?> create(@Valid @RequestBody User user) throws Exception{
         detailsServiceImpl.create(user);
         HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<>(headers, HttpStatus.FOUND).ok().build();

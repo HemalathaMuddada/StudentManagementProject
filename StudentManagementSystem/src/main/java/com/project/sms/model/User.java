@@ -1,10 +1,9 @@
 package com.project.sms.model;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.*;
 
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -18,6 +17,10 @@ import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -26,6 +29,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.var;
 
 
 @Entity
@@ -46,9 +50,11 @@ public class User implements UserDetails, Serializable {
 	@Column(name = "id")
 	private Integer id;
 	
+	@NotEmpty
+	@Size(min = 2, message = "user name should have at least 2 characters")
 	@Column(name="user_name")
 	private String username;
-	@Embedded
+	
 	@Column(name="password")
 	private String password;
 	
@@ -58,19 +64,19 @@ public class User implements UserDetails, Serializable {
 	@Column(name="last_name")
 	private String lastName;
 	
-	@Column(name="email")
+	@Pattern(regexp ="^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$",message="mail id is not valid")
+	@NotEmpty
+	@Column(name="email",unique = true)
 	private String email;
 	
-	
-
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_authority", 
 		joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
 		inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
 	@OrderBy
 	@JsonIgnore
-	private Collection<Authority> authorities;
-	
+	private Collection<Authority> authorities ;
+
 	@OneToMany
 	//@JoinTable(name = "user_college", 
 	//joinColumns =
@@ -97,7 +103,7 @@ public class User implements UserDetails, Serializable {
 	@OrderBy
 	@JsonIgnore
 	private Collection<StudentData> studentdetails;
-	
+
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
@@ -120,7 +126,8 @@ public class User implements UserDetails, Serializable {
 
 
 
-	
 
+	
+	
 
 }

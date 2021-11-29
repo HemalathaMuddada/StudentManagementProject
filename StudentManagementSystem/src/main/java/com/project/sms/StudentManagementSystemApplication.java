@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 //import com.project.sms.email.EmailService;
 
 @SpringBootApplication
-@EnableAsync
+
 public class StudentManagementSystemApplication {
 
 	public static void main(String[] args) {		

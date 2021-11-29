@@ -7,7 +7,7 @@ import com.project.sms.model.User;
 public interface UserService {
 public List<User> getAll();
 	
-	public void create(User user);
+	public void create(User user) throws Exception;
 	
 	public User update(User user);
 	
