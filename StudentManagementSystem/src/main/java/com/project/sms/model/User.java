@@ -69,13 +69,13 @@ public class User implements UserDetails, Serializable {
 	@Column(name="email",unique = true)
 	private String email;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_authority", 
 		joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
 		inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
 	@OrderBy
 	@JsonIgnore
-	private Collection<Authority> authorities ;
+	private List<Authority> authorities ;
 
 	@OneToMany
 	//@JoinTable(name = "user_college", 
@@ -84,7 +84,7 @@ public class User implements UserDetails, Serializable {
 	//inverseJoinColumns = @JoinColumn(name = "college_id", referencedColumnName = "id"))
 	@OrderBy
 	@JsonIgnore
-	private Collection<College> colleges;
+	private List<College> colleges;
 	
 	@OneToMany
 	//@JoinTable(name = "user_department", 
@@ -93,7 +93,7 @@ public class User implements UserDetails, Serializable {
 	//inverseJoinColumns = @JoinColumn(name = "department_id", referencedColumnName = "id"))
 	@OrderBy
 	@JsonIgnore
-	private Collection<Department> departments;
+	private List<Department> departments;
 
 	@OneToMany
 	//@JoinTable(name = "user_department", 
@@ -102,7 +102,7 @@ public class User implements UserDetails, Serializable {
 	//inverseJoinColumns = @JoinColumn(name = "department_id", referencedColumnName = "id"))
 	@OrderBy
 	@JsonIgnore
-	private Collection<StudentData> studentdetails;
+	private List<StudentData> studentdetails;
 
 	@Override
 	public boolean isAccountNonExpired() {
@@ -123,11 +123,4 @@ public class User implements UserDetails, Serializable {
 	public boolean isEnabled() {
 		return true;
 	}
-
-
-
-
-	
-	
-
 }
