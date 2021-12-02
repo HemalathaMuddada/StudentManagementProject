@@ -29,7 +29,7 @@ import com.project.sms.mail.MailData;
 import com.project.sms.model.Authority;
 import com.project.sms.model.PasswordGenerator;
 //import com.project.sms.email.UserCreatedEvent;
-import com.project.sms.model.RoleType;
+
 import com.project.sms.model.User;
 import com.project.sms.repository.AuthorityRepository;
 import com.project.sms.repository.UserRepository;
@@ -38,11 +38,8 @@ public class UserDetailsServiceImpl implements UserDetailsService,UserService {
 	
 	private static final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 	
-	String s;
+
 	
-	
-	@Autowired
-	private UserDto userDto;
 	
   @Autowired
   private AuthorityRepository authorityRepository;
@@ -98,47 +95,37 @@ private  ApplicationEventPublisher publisher;
 	        System.out.println(pass);
 	        
 	        user1.setPassword(encodedPassword);
+	                                                                                                                                                                                        
+//Validation for super admin role
+	        User user2=null;
+	        List<Authority> role=authorityRepository.findAll();
+	        String name=role.get(0).getName();
+	        List<String> n=new ArrayList<String>();
+	        n.add(name);
 	        
-	      
-	        List<Authority> listAuList=authorityRepository.findAll();
-		      
-	        for(int i=0;i<listAuList.size();i++)
-	  	  {
-	  		  Authority a=listAuList.get(i);
-	  		  System.out.println(a.getName());
-	  		  s=a.getName();
-	  		  System.out.println("s name:"+s);
-	  	  }
-	       User user2=null;
-	       System.out.println(s+ ":Hai");
-	       System.out.println("GET ROLE" + userDto.getRoletype());
-	          if(userDto.getRoletype().equals(s))
-	          {
-	         	 System.out.println("if main");
-	         	 if(userDto.getRoletype().toString()==s) {
-	         		 throw  new CustomExceptions("could not add  this role");
-	         	 }
-	         	 else {
-	         		 List<Authority> addList=authorityRepository.find(userDto.getRoletype());
-	         		 user1.setAuthorities(addList);
-	         		user2= repository.save(user1);
-	         		 
-	         	 }
-	          }
 	        List<Authority> addAuthorities=authorityRepository.find(user.getRoletype());
+	       
+	        if(n.equals(user.getRoletype()))
+	        {
+	        	throw new CustomExceptions("You cannot add this role ");
+	        }
+	        else
+	        {
             user1.setAuthorities(addAuthorities);
-            
-	
-	  
-	  MailData mail = new MailData();
-			 mail.setSubject("Welcome to Student Management System Program");
-	  mail.setToEmail(user.getEmailId());
-	  mail.setContent("You were added by " +"Username :"+user.getUsername() +"\n"+ "password :"+pass);
-	  emailService.sendEmail(mail);
-	  return repository.save(user1);
+           user2= repository.save(user1);
+	        }
+	        
+            user1.setAuthorities(addAuthorities);
+	          
+				  MailData mail = new MailData();
+						 mail.setSubject("Welcome to Student Management System Program");
+				  mail.setToEmail(user.getEmailId());
+				  mail.setContent("You were added by " +"Username :"+user.getUsername() +"\n"+ "password :"+pass);
+				  emailService.sendEmail(mail);
+				  return user2;
 		
 	}
-
+	
 	public UserDetailsServiceImpl() {
 		super();
 	}
