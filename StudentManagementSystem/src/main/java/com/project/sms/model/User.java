@@ -3,6 +3,7 @@ package com.project.sms.model;
 import java.io.Serializable;
 import java.util.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -77,29 +78,20 @@ public class User implements UserDetails, Serializable {
 	@JsonIgnore
 	private List<Authority> authorities ;
 
-	@OneToMany
-	//@JoinTable(name = "user_college", 
-	//joinColumns =
+	@OneToMany(cascade=CascadeType.MERGE,fetch=FetchType.LAZY)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
-	//inverseJoinColumns = @JoinColumn(name = "college_id", referencedColumnName = "id"))
 	@OrderBy
 	@JsonIgnore
 	private List<College> colleges;
 	
-	@OneToMany
-	//@JoinTable(name = "user_department", 
-	//joinColumns = 
+	@OneToMany(cascade=CascadeType.MERGE,fetch=FetchType.LAZY)
 	@JoinColumn(name = "user_id", referencedColumnName = "id") 
-	//inverseJoinColumns = @JoinColumn(name = "department_id", referencedColumnName = "id"))
 	@OrderBy
 	@JsonIgnore
 	private List<Department> departments;
 
 	@OneToMany
-	//@JoinTable(name = "user_department", 
-	//joinColumns = 
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
-	//inverseJoinColumns = @JoinColumn(name = "department_id", referencedColumnName = "id"))
 	@OrderBy
 	@JsonIgnore
 	private List<StudentData> studentdetails;

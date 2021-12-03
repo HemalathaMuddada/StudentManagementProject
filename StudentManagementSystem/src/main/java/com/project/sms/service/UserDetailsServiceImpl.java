@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.project.sms.dto.UserDto;
 import com.project.sms.exceptions.CustomExceptions;
+
 import com.project.sms.mail.EmailService;
 import com.project.sms.mail.MailData;
 import com.project.sms.model.Authority;
@@ -100,15 +101,17 @@ private  ApplicationEventPublisher publisher;
 	        User user2=null;
 	        List<Authority> role=authorityRepository.findAll();
 	        String name=role.get(0).getName();
+	        String name1=role.get(2).getName();
+	        String name2=role.get(3).getName();
 	        List<String> n=new ArrayList<String>();
 	        n.add(name);
+	        n.add(name1);
+	        n.add(name2);
 	        
 	        List<Authority> addAuthorities=authorityRepository.find(user.getRoletype());
 	       
-	        if(n.equals(user.getRoletype()))
-	        {
-	        	throw new CustomExceptions("You cannot add this role ");
-	        }
+	        if(n.equals(user.getRoletype())){throw new CustomExceptions("You can't add this role "); }
+	       
 	        else
 	        {
             user1.setAuthorities(addAuthorities);
