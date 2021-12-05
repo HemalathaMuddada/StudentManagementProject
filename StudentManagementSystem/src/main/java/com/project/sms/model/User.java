@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -52,7 +53,7 @@ public class User implements UserDetails, Serializable {
 	private Integer id;
 	
 	@NotEmpty
-	@Size(min = 2, message = "user name should have at least 2 characters")
+	@Size(min = 4, message = "user name should have at least 4 characters")
 	@Column(name="user_name")
 	private String username;
 	
@@ -78,7 +79,7 @@ public class User implements UserDetails, Serializable {
 	@JsonIgnore
 	private List<Authority> authorities ;
 
-	@OneToMany(cascade=CascadeType.MERGE,fetch=FetchType.LAZY)
+	@OneToOne(cascade=CascadeType.MERGE,fetch=FetchType.LAZY)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	@OrderBy
 	@JsonIgnore

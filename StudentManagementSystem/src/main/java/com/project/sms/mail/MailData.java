@@ -18,7 +18,6 @@ public class MailData {
  private   String toEmail;
  private   String subject;
  private    String content;
-    //String template;
-    Map<String, Object> model;
-   // Map<String, String> images;
+ Map<String, Object> model;
+ 
 }

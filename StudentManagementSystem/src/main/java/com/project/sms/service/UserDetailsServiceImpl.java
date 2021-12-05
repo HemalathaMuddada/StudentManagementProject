@@ -39,9 +39,6 @@ public class UserDetailsServiceImpl implements UserDetailsService,UserService {
 	
 	private static final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 	
-
-	
-	
   @Autowired
   private AuthorityRepository authorityRepository;
 
@@ -53,9 +50,6 @@ public class UserDetailsServiceImpl implements UserDetailsService,UserService {
 	
 	@Autowired
 	private EmailService emailService;
-
-@Autowired
-private  ApplicationEventPublisher publisher;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -101,13 +95,8 @@ private  ApplicationEventPublisher publisher;
 	        User user2=null;
 	        List<Authority> role=authorityRepository.findAll();
 	        String name=role.get(0).getName();
-	        String name1=role.get(2).getName();
-	        String name2=role.get(3).getName();
 	        List<String> n=new ArrayList<String>();
 	        n.add(name);
-	        n.add(name1);
-	        n.add(name2);
-	        
 	        List<Authority> addAuthorities=authorityRepository.find(user.getRoletype());
 	       
 	        if(n.equals(user.getRoletype())){throw new CustomExceptions("You can't add this role "); }
@@ -118,12 +107,12 @@ private  ApplicationEventPublisher publisher;
            user2= repository.save(user1);
 	        }
 	        
-            user1.setAuthorities(addAuthorities);
+           // user1.setAuthorities(addAuthorities);
 	          
 				  MailData mail = new MailData();
 						 mail.setSubject("Welcome to Student Management System Program");
 				  mail.setToEmail(user.getEmailId());
-				  mail.setContent("You were added by " +"Username :"+user.getUsername() +"\n"+ "password :"+pass);
+				  mail.setContent("You were added by "+n+"\n" +"Username :"+user.getUsername() +"\n"+ "password :"+pass);
 				  emailService.sendEmail(mail);
 				  return user2;
 		
@@ -138,18 +127,18 @@ private  ApplicationEventPublisher publisher;
 	@Transactional
 	public User update(UserDto user) {
 		
-Optional<User> userdb=this.repository.findById(user.getId());
+Optional<User> users=this.repository.findById(user.getId());
 		
-		if(userdb.isPresent()) {
-			User userUpdate=userdb.get();
-			userUpdate.setId(user.getId());
-			userUpdate.setUsername(user.getUsername());
-			userUpdate.setFirstName(user.getFirstName());
-			userUpdate.setLastName(user.getLastName());
-			userUpdate.setEmail(user.getEmailId());
-		    userUpdate.setPassword(new BCryptPasswordEncoder(8).encode(user.getPassword()));
-		    repository.save(userUpdate);
-		    return userUpdate;
+		if(users.isPresent()) {
+			User u=users.get();
+			u.setId(user.getId());
+			u.setUsername(user.getUsername());
+			u.setFirstName(user.getFirstName());
+			u.setLastName(user.getLastName());
+			u.setEmail(user.getEmailId());
+		    u.setPassword(new BCryptPasswordEncoder(8).encode(user.getPassword()));
+		    repository.save(u);
+		    return u;
 		}
 		else {
 			throw new CustomExceptions("Record not found with id" + user.getId());
@@ -159,9 +148,9 @@ Optional<User> userdb=this.repository.findById(user.getId());
 	@Override
 	@Transactional
 	public void delete(int id) {
-Optional<User> userdb=this.repository.findById(id);
+Optional<User> users=this.repository.findById(id);
 		
-		if(userdb.isPresent()) {
+		if(users.isPresent()) {
 			
 			this.repository.deleteById(id);
 		}
@@ -174,9 +163,9 @@ Optional<User> userdb=this.repository.findById(id);
 	@Override
 	@Transactional
 	public User getUserById(int id) {
-		Optional<User> userdb=this.repository.findById(id);
-		if(userdb.isPresent()) {
-			return userdb.get();
+		Optional<User> users=this.repository.findById(id);
+		if(users.isPresent()) {
+			return users.get();
 		}
 		
 		else {
