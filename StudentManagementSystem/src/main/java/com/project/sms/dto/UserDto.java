@@ -3,9 +3,6 @@ package com.project.sms.dto;
 
 import java.util.List;
 
-import com.project.sms.model.College;
-import com.project.sms.model.Department;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

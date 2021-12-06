@@ -21,3 +21,4 @@ public class MailData {
  Map<String, Object> model;
  
 }
+

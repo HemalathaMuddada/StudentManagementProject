@@ -1,43 +1,65 @@
 package com.project.sms.model;
 
+
+
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "college")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class College {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "college_id")
     private Long id;
 
     @Column(name = "college_name")
-    private String college_name;
+    private String name;
     
     @Column(name = "college_code")
-    private String college_code;
+    private String code;
     
-    @ManyToMany
+    @ManyToMany(fetch=FetchType.EAGER)
+    @JoinTable(name = "college_department", 
+	joinColumns = @JoinColumn(name = "college_id", referencedColumnName = "id"), 
+	inverseJoinColumns = @JoinColumn(name = "department_id", referencedColumnName = "id"))
+@OrderBy
     @JsonIgnore
-    private List<User> users;
+    private List<Department> department;
+    
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@JoinColumn
+	@JsonIgnore
+	private User user;
+    
+    
     
 
  

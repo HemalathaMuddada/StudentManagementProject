@@ -79,23 +79,6 @@ public class User implements UserDetails, Serializable {
 	@JsonIgnore
 	private List<Authority> authorities ;
 
-	@OneToOne(cascade=CascadeType.MERGE,fetch=FetchType.LAZY)
-	@JoinColumn(name = "user_id", referencedColumnName = "id")
-	@OrderBy
-	@JsonIgnore
-	private List<College> colleges;
-	
-	@OneToMany(cascade=CascadeType.MERGE,fetch=FetchType.LAZY)
-	@JoinColumn(name = "user_id", referencedColumnName = "id") 
-	@OrderBy
-	@JsonIgnore
-	private List<Department> departments;
-
-	@OneToMany
-	@JoinColumn(name = "user_id", referencedColumnName = "id")
-	@OrderBy
-	@JsonIgnore
-	private List<StudentData> studentdetails;
 
 	@Override
 	public boolean isAccountNonExpired() {

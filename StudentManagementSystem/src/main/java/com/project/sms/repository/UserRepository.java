@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.project.sms.model.College;
+import com.project.sms.model.Department;
 import com.project.sms.model.User;
 
 
@@ -16,4 +18,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "WHERE user.username = :username")
    public User findByUsername(@Param("username") String username);
     //User findByEmailId(String emId);
+
+	public void save(College c);
+	public void save(Department d);
 }
