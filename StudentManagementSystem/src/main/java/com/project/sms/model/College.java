@@ -1,9 +1,5 @@
 package com.project.sms.model;
-
-
-
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,7 +33,7 @@ public class College {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "college_id")
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "college_name")
@@ -46,11 +42,11 @@ public class College {
     @Column(name = "college_code")
     private String code;
     
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "college_department", 
 	joinColumns = @JoinColumn(name = "college_id", referencedColumnName = "id"), 
 	inverseJoinColumns = @JoinColumn(name = "department_id", referencedColumnName = "id"))
-@OrderBy
+    @OrderBy
     @JsonIgnore
     private List<Department> department;
     
@@ -58,9 +54,5 @@ public class College {
 	@JoinColumn
 	@JsonIgnore
 	private User user;
-    
-    
-    
 
- 
 }

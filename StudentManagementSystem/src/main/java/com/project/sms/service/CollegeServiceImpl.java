@@ -8,19 +8,23 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.sms.dto.DepartmentDto;
 import com.project.sms.dto.Orgnaizationdto;
 import com.project.sms.exceptions.CustomExceptions;
 import com.project.sms.model.College;
 import com.project.sms.model.Department;
 import com.project.sms.model.User;
 import com.project.sms.repository.CollegeRepository;
-
+import com.project.sms.repository.DepartmentRepository;
 import com.project.sms.repository.UserRepository;
 
 @Service
 public class CollegeServiceImpl implements CollegeService {
 	@Autowired
 	private CollegeRepository collegeRepository;
+	
+	@Autowired
+	private DepartmentRepository departmentRepository;
 	
 	   @Autowired
 	   private UserRepository repository;
@@ -35,16 +39,13 @@ public class CollegeServiceImpl implements CollegeService {
 			c.setName(orgnaizationdto.getCollege_name());
 			c.setCode(orgnaizationdto.getCollege_code());
 			
-			//Long dept_id=collegeRepository.save(c).getId();
-			
-			Department d=new Department();
-			d.setName(orgnaizationdto.getDepartment_name());
-			d.setCode(orgnaizationdto.getDepartment_code());
-			
+			List<Department> d=departmentRepository.findByName(orgnaizationdto.getName());
+        	c.setDepartment(d);
 			
 			User user1=this.repository.findByUsername(orgnaizationdto.getUsername());
 			c.setUser(user1);
-			c.setDepartment(List.of(d));
+			//c.setDepartment(List.of(d));
+			
 		
   
 		return collegeRepository.save(c);
@@ -64,12 +65,6 @@ public class CollegeServiceImpl implements CollegeService {
 				c.setName(orgnaizationdto.getCollege_name());
 				c.setCode(orgnaizationdto.getCollege_code());
 				
-				Long id=collegeRepository.save(c).getId();
-				
-				Department d=new Department();
-				d.setName(orgnaizationdto.getDepartment_name());
-				d.setCode(orgnaizationdto.getDepartment_code());
-				d.setId(id);
 		
 				 repository.save(c);
 		          return c;

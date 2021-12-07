@@ -3,6 +3,8 @@ package com.project.sms.dto;
 
 
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,11 +19,10 @@ public class Orgnaizationdto {
 	private String college_name;
 	private String college_code;
 
-	private String department_name;
-	private String department_code;
-
+	private List<String> name;
 	
 	private String username ;
 	
 	
 }
+
