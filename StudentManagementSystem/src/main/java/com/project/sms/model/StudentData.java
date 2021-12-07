@@ -5,14 +5,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "student_info", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
+@Table(name = "StudentData")
 @Getter
 @Setter
 public class StudentData {
@@ -21,22 +26,24 @@ public class StudentData {
     @Column(name = "id")
     private Long id;
 	
-	@Column(name = "username")
-    private String username;
-	
-	@Column(name = "first_name")
-    private String first_name;
-	
-	@Column(name = "last_name")
-    private String last_name;
-	
-	@Column(name = "email")
-    private String email;
-
     @Column(name = "attendance_in_percentage")
     private Long attendance;
     
+    @Column(name="parent_name")
+    private String name;
+    
     @Column(name = "parent_email_id")
-    private String parent_email_id;
+    private String email_id;
+    
+    @ManyToOne
+    @JoinColumn
+    @JsonIgnore
+    private User hoduser;
+
+    @OneToOne
+    @JoinColumn(name="student_id",referencedColumnName = "id")
+    @JsonIgnore
+    private User studentuser;
+
 
 }

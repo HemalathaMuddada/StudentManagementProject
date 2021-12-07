@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.project.sms.model.College;
 import com.project.sms.model.Department;
+import com.project.sms.model.StudentData;
 import com.project.sms.model.User;
 
 
@@ -17,8 +18,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "INNER JOIN FETCH user.authorities AS authorities " +
             "WHERE user.username = :username")
    public User findByUsername(@Param("username") String username);
-    //User findByEmailId(String emId);
+   
 
 	public void save(College c);
 	public void save(Department d);
+
+	public void save(StudentData studentData);
 }
