@@ -37,6 +37,8 @@ public class StudentDataServiceImpl implements StudentDataService{
 	private PasswordGenerator passwordGenerator;
 	@Autowired
 	private EmailService emailService;
+	  MailData mail = new MailData();
+	  User user1 = new User();
 	
 	@Override
 	@Transactional
@@ -49,7 +51,7 @@ public class StudentDataServiceImpl implements StudentDataService{
 		
 UserDto user=studentDataDto.getUserDto();
 		
-        User user1 = new User();
+        
         user1.setEmail(user.getEmailId());
         user1.setFirstName(user.getFirstName());
         user1.setLastName(user.getLastName());
@@ -77,16 +79,16 @@ UserDto user=studentDataDto.getUserDto();
        user2= repository.save(user1);
         }
           
-			  MailData mail = new MailData();
+			
 					 mail.setSubject("Welcome to Student Management System Program");
 			  mail.setToEmail(user.getEmailId());
 			  mail.setContent("You were added by "+n+"\n" +"Username :"+user.getUsername() +"\n"+ "password :"+pass);
 			  emailService.sendEmail(mail);
 			  
 			 if(studentDataDto.getAttendance()<65) {
-				 mail.setSubject("Lack of Attendance");
+				 mail.setSubject("Attendance Alert!!!!");
 		  mail.setToEmail(studentDataDto.getEmail());
-		  mail.setContent("Your ward "+user1.getFirstName()+" "+"having less attendane with a percentage of"+studentData.getAttendance());
+		  mail.setContent("Your ward "+" "+user1.getFirstName()+" "+user1.getLastName()+" "+"having less attendane with a percentage of"+" "+studentData.getAttendance());
 		  emailService.sendEmail(mail);
 			 }
 			 else {
@@ -119,8 +121,8 @@ UserDto user=studentDataDto.getUserDto();
 			else {
 				throw new CustomExceptions("Record not found with id" + studentdb.get());
 			}
+	
 	}
-
 	@Override
 	public void deleteById(Long id) {
 		Optional<StudentData> department=dataRepository.findById(id);
