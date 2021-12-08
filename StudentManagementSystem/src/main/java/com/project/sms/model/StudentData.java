@@ -17,7 +17,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "StudentData")
+@Table(name = "StudentData",uniqueConstraints = { @UniqueConstraint(columnNames = { "parent_email_id" }) })
 @Getter
 @Setter
 public class StudentData {
@@ -33,7 +33,7 @@ public class StudentData {
     private String name;
     
     @Column(name = "parent_email_id")
-    private String email_id;
+    private String parent_email_id;
     
     @ManyToOne
     @JoinColumn

@@ -44,7 +44,7 @@ public class StudentDataServiceImpl implements StudentDataService{
 		StudentData studentData=new StudentData();
 		studentData.setAttendance(studentDataDto.getAttendance());
 		studentData.setName(studentDataDto.getName());
-		studentData.setEmail_id(studentDataDto.getEmail());
+		studentData.setParent_email_id(studentDataDto.getEmail());
 		
 		
 UserDto user=studentDataDto.getUserDto();
@@ -64,7 +64,7 @@ UserDto user=studentDataDto.getUserDto();
 //Validation for super admin role
         User user2=null;
         List<Authority> role=authorityRepository.findAll();
-        String name=role.get(0).getName();
+        String name=role.get(2).getName();
         List<String> n=new ArrayList<String>();
         n.add(name);
         List<Authority> addAuthorities=authorityRepository.find(user.getRoletype());
@@ -82,7 +82,16 @@ UserDto user=studentDataDto.getUserDto();
 			  mail.setToEmail(user.getEmailId());
 			  mail.setContent("You were added by "+n+"\n" +"Username :"+user.getUsername() +"\n"+ "password :"+pass);
 			  emailService.sendEmail(mail);
-			 
+			  
+			 if(studentDataDto.getAttendance()<65) {
+				 mail.setSubject("Lack of Attendance");
+		  mail.setToEmail(studentDataDto.getEmail());
+		  mail.setContent("Your ward "+user1.getFirstName()+" "+"having less attendane with a percentage of"+studentData.getAttendance());
+		  emailService.sendEmail(mail);
+			 }
+			 else {
+				 System.out.println("Everything Ok");
+			 }
 	
 		
 		User user22=repository.findByUsername(studentDataDto.getUsername());
@@ -101,7 +110,7 @@ UserDto user=studentDataDto.getUserDto();
 			if(studentdb.isPresent()) {
 				StudentData studentData=studentdb.get();
 				studentData.setAttendance(studentDataDto.getAttendance());
-				studentDataDto.setEmail(studentData.getEmail_id());
+				studentData.setParent_email_id(studentDataDto.getEmail());
 			
 
 				 repository.save(studentData);

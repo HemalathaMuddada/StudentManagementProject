@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "college")
+@Table(name = "college",uniqueConstraints = { @UniqueConstraint(columnNames = { "college_code" }) })
 @Getter
 @Setter
 @AllArgsConstructor
@@ -55,5 +55,6 @@ public class College {
 	@JoinColumn
 	@JsonIgnore
 	private User user;
+    
 
 }

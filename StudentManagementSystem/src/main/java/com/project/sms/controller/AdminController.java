@@ -24,6 +24,7 @@ import com.project.sms.dto.UserDto;
 import com.project.sms.model.User;
 import com.project.sms.service.UserDetailsServiceImpl;
 
+@RequestMapping("/user")
 @RestController
 public class AdminController {
 	@Autowired
@@ -35,7 +36,7 @@ public class AdminController {
 	        return detailsServiceImpl.getAll();
 	    }
 		
-		@GetMapping(value="/{id}")
+		@GetMapping(value="/get/{id}")
 		public ResponseEntity<User> getUserById(@PathVariable int id) {
 			return ResponseEntity.ok().body(detailsServiceImpl.getUserById(id));
 		}

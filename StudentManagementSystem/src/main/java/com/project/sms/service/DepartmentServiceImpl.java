@@ -45,7 +45,7 @@ private EmailService emailService;
 		Department department=new Department();
 		department.setName(departmentDto.getName());
 		department.setCode(departmentDto.getCode());
-		
+	
 		
 		UserDto user=departmentDto.getUserDto();
 		
@@ -64,7 +64,7 @@ private EmailService emailService;
 //Validation for super admin role
         User user2=null;
         List<Authority> role=authorityRepository.findAll();
-        String name=role.get(0).getName();
+        String name=role.get(1).getName();
         List<String> n=new ArrayList<String>();
         n.add(name);
         List<Authority> addAuthorities=authorityRepository.find(user.getRoletype());

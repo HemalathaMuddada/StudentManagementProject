@@ -52,6 +52,4 @@ private User user;
 private User hoduser;
 
 
-
-   
 }

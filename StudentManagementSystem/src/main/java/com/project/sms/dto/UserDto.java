@@ -15,7 +15,6 @@ import lombok.ToString;
 @ToString
 
 public class UserDto {
-
 	private int id;
     private String firstName;
     private String lastName;

@@ -61,7 +61,7 @@ public class StudentDataController {
 		
 		
 		
-		@GetMapping(value="/{id}")
+		@GetMapping(value="/get/{id}")
 		public ResponseEntity<StudentData> getStudentDataById(@PathVariable long id) {
 			return ResponseEntity.ok().body(this.studentDataService.findStudentDataById(id));
 		}

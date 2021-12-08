@@ -44,7 +44,6 @@ public class CollegeServiceImpl implements CollegeService {
 			
 			User user1=this.repository.findByUsername(orgnaizationdto.getUsername());
 			c.setUser(user1);
-			//c.setDepartment(List.of(d));
 			
 		
   

@@ -5,7 +5,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class StudentDataDto {
-
 		private Long id;
 	private Long attendance;
 	private String name;
