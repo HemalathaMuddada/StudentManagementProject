@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -36,6 +37,7 @@ public class Department {
     private Long id;
 
     @Column(name = "department_name")
+    @NotNull(message="please provide department")
     private String  name;
     
     @Column(name = "department_code")

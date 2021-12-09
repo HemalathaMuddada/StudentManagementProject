@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -30,9 +31,11 @@ public class StudentData {
     private Long attendance;
     
     @Column(name="parent_name")
+    @NotNull(message="mandatory field")
     private String name;
     
     @Column(name = "parent_email_id")
+    @NotNull(message="mandatory field")
     private String parent_email_id;
     
     @ManyToOne

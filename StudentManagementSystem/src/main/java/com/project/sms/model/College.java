@@ -16,6 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -38,6 +39,7 @@ public class College {
     private Long id;
 
     @Column(name = "college_name")
+    @NotNull(message="It should be not null")
     private String name;
     
     @Column(name = "college_code")

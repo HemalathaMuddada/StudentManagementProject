@@ -52,7 +52,7 @@ public class User implements UserDetails, Serializable {
 	@Column(name = "id")
 	private Integer id;
 	
-	@NotEmpty
+	@NotEmpty(message="username must not be null")
 	@Size(min = 4, message = "user name should have at least 4 characters")
 	@Column(name="user_name")
 	private String username;
@@ -61,13 +61,15 @@ public class User implements UserDetails, Serializable {
 	private String password;
 	
 	@Column(name="first_name")
+	@NotEmpty(message="firstname must not be null")
 	private String firstName;
 	
 	@Column(name="last_name")
+	@NotEmpty(message="lastname must not be null")
 	private String lastName;
 	
 	@Pattern(regexp ="^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$",message="mail id is not valid")
-	@NotEmpty
+	@NotEmpty(message="please provide email it should not be null")
 	@Column(name="email",unique = true)
 	private String email;
 	

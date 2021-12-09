@@ -7,6 +7,8 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -96,8 +98,20 @@ UserDto user=studentDataDto.getUserDto();
 			 }
 	
 		
-		User user22=repository.findByUsername(studentDataDto.getUsername());
-		studentData.setHoduser(user22);
+		//User user22=repository.findByUsername(studentDataDto.getUsername());
+		//studentData.setHoduser(user22);
+		
+User u= null;
+		
+		Object users = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		if (users instanceof UserDetails) {
+		  String username = ((UserDetails)users).getUsername();
+		  u=this.repository.findByUsername(username);
+		  studentData.setHoduser(u);
+		} else {
+		  String username = users.toString();
+	}
 		
 		studentData.setStudentuser(user2);
 		return dataRepository.save(studentData);
