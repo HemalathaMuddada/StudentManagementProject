@@ -89,14 +89,25 @@ private EmailService emailService;
 			 
 	
 		
-		User user22=repository.findByUsername(departmentDto.getUsername());
-		department.setUser(user22);
+				
+			  User u= null;
+			  		
+			  		Object users = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+			  		if (users instanceof UserDetails) {
+			  		  String username = ((UserDetails)users).getUsername();
+			  		  u=this.repository.findByUsername(username);
+			  		  department.setHoduser(u);
+			  		} else {
+			  		  String username = users.toString();
+			  	}
+			  		
+			  		department.setHoduser(user2);
+			  		return departmentRepository.save(department);
+			  	}
 			  
 		
-		department.setHoduser(user2);
-		return departmentRepository.save(department);
-	}
-
+	
 	@Override
 	public Department update(DepartmentDto departmentDto) {
 		  Optional<Department> departmentdb=this.departmentRepository.findById(departmentDto.getId());

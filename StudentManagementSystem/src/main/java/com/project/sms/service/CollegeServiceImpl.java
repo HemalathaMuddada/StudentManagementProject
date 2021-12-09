@@ -6,6 +6,8 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.project.sms.dto.DepartmentDto;
@@ -42,13 +44,22 @@ public class CollegeServiceImpl implements CollegeService {
 			List<Department> d=departmentRepository.findByName(orgnaizationdto.getName());
         	c.setDepartment(d);
 			
-			User user1=this.repository.findByUsername(orgnaizationdto.getUsername());
-			c.setUser(user1);
-			
-		
-  
-		return collegeRepository.save(c);
-	}
+        	 User u= null;
+		  		
+		  		Object users = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		  		if (users instanceof UserDetails) {
+		  		  String username = ((UserDetails)users).getUsername();
+		  		  u=this.repository.findByUsername(username);
+		  		  c.setUser(u);
+		  		} else {
+		  		  String username = users.toString();
+		  	}
+		  		
+		  		c.setUser(u);
+		  		return collegeRepository.save(c);
+		  	}
+		  
 	
 	@Override
 	@Transactional

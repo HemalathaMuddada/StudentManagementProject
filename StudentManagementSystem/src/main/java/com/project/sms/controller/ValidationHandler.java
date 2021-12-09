@@ -40,7 +40,7 @@ public class ValidationHandler extends ResponseEntityExceptionHandler{
 	    ApiError apiError = 
 	      new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
 	    return new ResponseEntity<Object>(
-	      apiError, new HttpHeaders(), apiError.getStatus());
+	      apiError,HttpStatus.BAD_REQUEST);// new HttpHeaders(), apiError.getStatus());
 	}
 
 }
