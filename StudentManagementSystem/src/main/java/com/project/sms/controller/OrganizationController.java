@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.sms.dto.Orgnaizationdto;
 import com.project.sms.dto.UserDto;
-import com.project.sms.exceptions.CustomExceptions;
+import com.project.sms.exceptions.ResourceNotFoundException;
 import com.project.sms.mail.MailData;
 import com.project.sms.model.Authority;
 import com.project.sms.model.College;

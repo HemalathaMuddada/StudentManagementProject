@@ -24,7 +24,7 @@ import com.project.sms.dto.UserDto;
 import com.project.sms.model.User;
 import com.project.sms.service.UserDetailsServiceImpl;
 
-@RequestMapping("/user")
+
 @RestController
 public class AdminController {
 	@Autowired

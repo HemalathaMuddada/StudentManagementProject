@@ -10,5 +10,6 @@ import com.project.sms.model.Authority;
 
 public interface AuthorityRepository extends JpaRepository<Authority, Long> {
 	@Query(value = "SELECT * FROM Authority u where u.name IN (:authorities)", nativeQuery = true)
-    List<Authority> find(@Param("authorities") List<String> authorities);
+   List<Authority> find(@Param("authorities") List<String> authorities);
+	// List<Authority> find(@Param("authorities")String authorities);
 }

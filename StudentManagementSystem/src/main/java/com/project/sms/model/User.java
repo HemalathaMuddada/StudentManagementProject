@@ -27,6 +27,9 @@ import javax.validation.constraints.Size;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.project.sms.validation.PasswordMatches;
+import com.project.sms.validation.ValidEmail;
+import com.project.sms.validation.ValidPassword;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -39,6 +42,7 @@ import lombok.var;
 @EqualsAndHashCode(of = "id")
 @Getter
 @Setter
+
 public class User implements UserDetails, Serializable {
 
 	/**
@@ -57,6 +61,7 @@ public class User implements UserDetails, Serializable {
 	@Column(name="user_name")
 	private String username;
 	
+	//@ValidPassword
 	@Column(name="password")
 	private String password;
 	
@@ -68,7 +73,7 @@ public class User implements UserDetails, Serializable {
 	@NotEmpty(message="lastname must not be null")
 	private String lastName;
 	
-	@Pattern(regexp ="^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$",message="mail id is not valid")
+	@ValidEmail
 	@NotEmpty(message="please provide email it should not be null")
 	@Column(name="email",unique = true)
 	private String email;
@@ -101,4 +106,9 @@ public class User implements UserDetails, Serializable {
 	public boolean isEnabled() {
 		return true;
 	}
+
+	
+	
+
+	
 }

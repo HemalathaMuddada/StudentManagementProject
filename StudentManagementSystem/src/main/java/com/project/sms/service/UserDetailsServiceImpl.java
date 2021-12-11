@@ -23,8 +23,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.sms.dto.UserDto;
-import com.project.sms.exceptions.CustomExceptions;
-
+import com.project.sms.exceptions.ResourceNotFoundException;
+import com.project.sms.exceptions.UserAlreadyExistException;
+import com.project.sms.exceptions.UserNotFoundException;
 import com.project.sms.mail.EmailService;
 import com.project.sms.mail.MailData;
 import com.project.sms.model.Authority;
@@ -59,9 +60,11 @@ public class UserDetailsServiceImpl implements UserDetailsService,UserService {
 		if (user != null) {
 			return user;
 		}
-
-		throw new UsernameNotFoundException(username);
+		
+		
+		throw new UsernameNotFoundException("username not found:"+username);
 	}
+	
 	
 
 	@Override
@@ -90,33 +93,44 @@ public class UserDetailsServiceImpl implements UserDetailsService,UserService {
 	        System.out.println(pass);
 	        
 	        user1.setPassword(encodedPassword);
-	                                                                                                                                                                                        
+	                   
+	        /* if (user.isPresent()) {
+				throw new UserAlreadyExistException("User already exisits"+user.getUsername());
+				
+			}*/
+	        
 //Validation for super admin role
 	        User user2=null;
 	        List<Authority> role=authorityRepository.findAll();
 	        String name=role.get(0).getName();
+	       
 	        List<String> n=new ArrayList<String>();
 	        n.add(name);
-	        List<Authority> addAuthorities=authorityRepository.find(user.getRoletype());
+	        
+	        List<Authority> addAuthorities=authorityRepository.find(user.getRole());
+	        		
 	       
-	        if(n.equals(user.getRoletype())){throw new CustomExceptions("You can't add this role "); }
+	    
+	        	if(n.equals(user.getRole())){
+	        		
+	        	throw new ResourceNotFoundException("You can't add this role ");
+	        	}
 	       
 	        else
 	        {
             user1.setAuthorities(addAuthorities);
+           
            user2= repository.save(user1);
+           
+     	  MailData mail = new MailData();
+			 mail.setSubject("Welcome to Student Management System Program");
+	  mail.setToEmail(user.getEmailId());
+	  mail.setContent("You were added by "+n+"\n" +"Username :"+user.getUsername() +"\n"+ "password :"+pass);
+	  emailService.sendEmail(mail);
+	  return user2;
 	        }
-	        
-           // user1.setAuthorities(addAuthorities);
-	          
-				  MailData mail = new MailData();
-						 mail.setSubject("Welcome to Student Management System Program");
-				  mail.setToEmail(user.getEmailId());
-				  mail.setContent("You were added by "+n+"\n" +"Username :"+user.getUsername() +"\n"+ "password :"+pass);
-				  emailService.sendEmail(mail);
-				  return user2;
-		
-	}
+	        }
+	
 	
 	public UserDetailsServiceImpl() {
 		super();
@@ -141,7 +155,7 @@ Optional<User> users=this.repository.findById(user.getId());
 		    return u;
 		}
 		else {
-			throw new CustomExceptions("Record not found with id" + user.getId());
+			throw new UserNotFoundException("user not found with id" + user.getId());
 		}
 		
 	}
@@ -155,7 +169,7 @@ Optional<User> users=this.repository.findById(id);
 			this.repository.deleteById(id);
 		}
 		else {
-			throw new CustomExceptions("Record not found with id  :" +id);
+			throw new ResourceNotFoundException("Record not found with id  :" +id);
 		}
 	
 	}
@@ -169,7 +183,7 @@ Optional<User> users=this.repository.findById(id);
 		}
 		
 		else {
-			throw  new CustomExceptions("Record not found with id  :" +id);
+			throw  new ResourceNotFoundException("Record not found with id  :" +id);
 		}
 		
 	}

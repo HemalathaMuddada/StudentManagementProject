@@ -1,4 +1,4 @@
-package com.project.sms.controller;
+package com.project.sms.validation;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.project.sms.exceptions.ApiError;
+
 
 @ControllerAdvice
 public class ValidationHandler extends ResponseEntityExceptionHandler{
@@ -31,16 +31,4 @@ public class ValidationHandler extends ResponseEntityExceptionHandler{
 		});
 		return new ResponseEntity<Object>(errors, HttpStatus.BAD_REQUEST);
 	}
-	@Override
-	protected ResponseEntity<Object> handleMissingServletRequestParameter(
-	  MissingServletRequestParameterException ex, HttpHeaders headers, 
-	  HttpStatus status, WebRequest request) {
-	    String error = ex.getParameterName() + " parameter is missing";
-	    
-	    ApiError apiError = 
-	      new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
-	    return new ResponseEntity<Object>(
-	      apiError,HttpStatus.BAD_REQUEST);// new HttpHeaders(), apiError.getStatus());
-	}
-
 }

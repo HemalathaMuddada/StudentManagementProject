@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.sms.dto.DepartmentDto;
 import com.project.sms.dto.Orgnaizationdto;
-import com.project.sms.exceptions.CustomExceptions;
+import com.project.sms.exceptions.ResourceNotFoundException;
 import com.project.sms.model.College;
 import com.project.sms.model.Department;
 import com.project.sms.model.User;
@@ -80,7 +80,7 @@ public class CollegeServiceImpl implements CollegeService {
 		          return c;
 			}
 			else {
-				throw new CustomExceptions("Record not found with id" + orgnaizationdto.getId());
+				throw new ResourceNotFoundException("Record not found with id" + orgnaizationdto.getId());
 			}
 	}}
 
@@ -93,7 +93,7 @@ public class CollegeServiceImpl implements CollegeService {
         	this.collegeRepository.deleteById(id);
 		}
 		else {
-			throw new CustomExceptions("Record not found with id  :" +id);
+			throw new ResourceNotFoundException("Record not found with id  :" +id);
 		}
 		
 	}
@@ -107,7 +107,7 @@ public class CollegeServiceImpl implements CollegeService {
 		}
 		
 		else {
-			throw  new CustomExceptions("Record not found with id  :" +id);
+			throw  new ResourceNotFoundException("Record not found with id  :" +id);
 		}
 	}
 	

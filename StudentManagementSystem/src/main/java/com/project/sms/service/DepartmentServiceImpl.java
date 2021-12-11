@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.sms.dto.DepartmentDto;
 import com.project.sms.dto.UserDto;
-import com.project.sms.exceptions.CustomExceptions;
+import com.project.sms.exceptions.ResourceNotFoundException;
 import com.project.sms.mail.EmailService;
 import com.project.sms.mail.MailData;
 import com.project.sms.model.Authority;
@@ -69,9 +69,9 @@ private EmailService emailService;
         String name=role.get(1).getName();
         List<String> n=new ArrayList<String>();
         n.add(name);
-        List<Authority> addAuthorities=authorityRepository.find(user.getRoletype());
+        List<Authority> addAuthorities=authorityRepository.find(user.getRole());
        
-        if(n.equals(user.getRoletype())){throw new CustomExceptions("You can't add this role "); }
+        if(n.equals(user.getRole())){throw new ResourceNotFoundException("You can't add this role "); }
        
         else
         {
@@ -123,7 +123,7 @@ private EmailService emailService;
 		          return d;
 			}
 			else {
-				throw new CustomExceptions("Record not found with id" + departmentdb.get());
+				throw new ResourceNotFoundException("Record not found with id" + departmentdb.get());
 			}
 	}
 
@@ -135,7 +135,7 @@ if(department.isPresent()) {
 }
 else
 {
-	throw new CustomExceptions("record not found with this id:"+id);
+	throw new ResourceNotFoundException("record not found with this id:"+id);
 }
 		
 	}
@@ -154,7 +154,7 @@ else
 		}
 		
 		else {
-			throw  new CustomExceptions("Record not found with id  :" +id);
+			throw  new ResourceNotFoundException("Record not found with id  :" +id);
 		}
 	}
 	

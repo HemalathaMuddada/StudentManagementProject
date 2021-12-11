@@ -13,6 +13,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.project.sms.validation.ValidEmail;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -34,6 +35,7 @@ public class StudentData {
     @NotNull(message="mandatory field")
     private String name;
     
+    @ValidEmail
     @Column(name = "parent_email_id")
     @NotNull(message="mandatory field")
     private String parent_email_id;

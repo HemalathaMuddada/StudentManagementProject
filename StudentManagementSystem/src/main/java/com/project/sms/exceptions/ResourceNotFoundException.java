@@ -3,14 +3,14 @@ package com.project.sms.exceptions;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus
-public class CustomExceptions extends RuntimeException
+public class ResourceNotFoundException extends RuntimeException
 {
 
 	private static final long serialVersionUID = 1L;
-	public CustomExceptions(String message) {
+	public ResourceNotFoundException(String message) {
 		super(message);
 	}	
-	public CustomExceptions(String message,Throwable throwable) {
+	public ResourceNotFoundException(String message,Throwable throwable) {
 		super(message,throwable);
 	}
 

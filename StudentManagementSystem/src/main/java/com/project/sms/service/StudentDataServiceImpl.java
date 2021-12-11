@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.sms.dto.StudentDataDto;
 import com.project.sms.dto.UserDto;
-import com.project.sms.exceptions.CustomExceptions;
+import com.project.sms.exceptions.ResourceNotFoundException;
 import com.project.sms.mail.EmailService;
 import com.project.sms.mail.MailData;
 import com.project.sms.model.Authority;
@@ -71,18 +71,20 @@ UserDto user=studentDataDto.getUserDto();
         String name=role.get(2).getName();
         List<String> n=new ArrayList<String>();
         n.add(name);
-        List<Authority> addAuthorities=authorityRepository.find(user.getRoletype());
+        List<Authority> addAuthorities=authorityRepository.find(user.getRole());
        
-        if(n.equals(user.getRoletype())){throw new CustomExceptions("You can't add this role "); }
+        if(n.equals(user.getRole())){
+        	throw new ResourceNotFoundException("You can't add this role "); }
        
         else
         {
         user1.setAuthorities(addAuthorities);
        user2= repository.save(user1);
         }
-          
+
 			
-					 mail.setSubject("Welcome to Student Management System Program");
+      
+		 mail.setSubject("Welcome to Student Management System Program");
 			  mail.setToEmail(user.getEmailId());
 			  mail.setContent("You were added by "+n+"\n" +"Username :"+user.getUsername() +"\n"+ "password :"+pass);
 			  emailService.sendEmail(mail);
@@ -133,7 +135,7 @@ User u= null;
 		          return studentData;
 			}
 			else {
-				throw new CustomExceptions("Record not found with id" + studentdb.get());
+				throw new ResourceNotFoundException("Record not found with id" + studentdb.get());
 			}
 	
 	}
@@ -145,7 +147,7 @@ User u= null;
 		}
 		else
 		{
-			throw new CustomExceptions("record not found with this id:"+id);
+			throw new ResourceNotFoundException("record not found with this id:"+id);
 		}
 				
 			}
@@ -163,7 +165,7 @@ User u= null;
 		}
 		
 		else {
-			throw  new CustomExceptions("Record not found with id  :" +id);
+			throw  new ResourceNotFoundException("Record not found with id  :" +id);
 		}
 
 }
