@@ -36,7 +36,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     @Override
     public void configure(HttpSecurity http) throws Exception {
     	http.csrf().disable().authorizeRequests().antMatchers("/api/get").permitAll()
-    	.antMatchers("/user").hasAnyAuthority("ROLE_SUPER_ADMIN").anyRequest()
+    	.antMatchers("/user").hasAnyAuthority("ROLE_SUPER_ADMIN","ROLE_PRICIPAL","ROLE_HOD").anyRequest()
     	.authenticated().and().formLogin().disable();
                 
     }

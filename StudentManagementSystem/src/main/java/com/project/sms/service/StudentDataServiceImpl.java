@@ -82,11 +82,21 @@ UserDto user=studentDataDto.getUserDto();
        user2= repository.save(user1);
         }
 
-			
+User u= null;
+		
+		Object users = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		if (users instanceof UserDetails) {
+		  String username = ((UserDetails)users).getUsername();
+		  u=this.repository.findByUsername(username);
+		  studentData.setHoduser(u);
+		} else {
+		  String username = users.toString();
+	}
       
 		 mail.setSubject("Welcome to Student Management System Program");
 			  mail.setToEmail(user.getEmailId());
-			  mail.setContent("You were added by "+n+"\n" +"Username :"+user.getUsername() +"\n"+ "password :"+pass);
+			  mail.setContent("You were added by "+u.getUsername()+" : "+"("+n+")"+"\n" +"Username :"+user.getUsername() +"\n"+ "password :"+pass);
 			  emailService.sendEmail(mail);
 			  
 			 if(studentDataDto.getAttendance()<65) {
@@ -103,17 +113,7 @@ UserDto user=studentDataDto.getUserDto();
 		//User user22=repository.findByUsername(studentDataDto.getUsername());
 		//studentData.setHoduser(user22);
 		
-User u= null;
-		
-		Object users = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-		if (users instanceof UserDetails) {
-		  String username = ((UserDetails)users).getUsername();
-		  u=this.repository.findByUsername(username);
-		  studentData.setHoduser(u);
-		} else {
-		  String username = users.toString();
-	}
 	
 		studentData.setStudentuser(user2);
 		return dataRepository.save(studentData);

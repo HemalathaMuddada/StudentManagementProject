@@ -2,9 +2,14 @@ package com.project.sms.model;
 
 import java.util.Random;
 
+
 import javax.persistence.Embeddable;
 
 import org.springframework.stereotype.Component;
+
+import com.project.sms.validation.ValidPassword;
+
+@ValidPassword
 @Component("RandomPassword")
 public class PasswordGenerator {
 	public String generateRandomPassword(int len) {

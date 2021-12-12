@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -79,8 +80,8 @@ public class UserDetailsServiceImpl implements UserDetailsService,UserService {
 	public User create(UserDto user)throws Exception {
 	        User userWithDuplicateUsername = repository.findByUsername(user.getUsername());
 	        if(userWithDuplicateUsername != null && user.getId() != userWithDuplicateUsername.getId()) {
-	            log.error(String.format("Duplicate username %", user.getUsername()));
-	            throw new RuntimeException("Duplicate username.");
+	          //  log.error(String.format("Duplicate username %", user.getUsername()));
+	            throw new UserAlreadyExistException("Duplicate username.");
 	        }
 	        User user1 = new User();
 	        user1.setEmail(user.getEmailId());
@@ -99,13 +100,29 @@ public class UserDetailsServiceImpl implements UserDetailsService,UserService {
 				
 			}*/
 	        
+	        User u= null;
+	  		
+	  		Object users = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+	  		if (users instanceof UserDetails) {
+	  		  String username = ((UserDetails)users).getUsername();
+	  		  u=this.repository.findByUsername(username);
+	  		  //user1.setUsername(u);;
+	  		} else {
+	  		  String username = users.toString();
+	  	}
+	  		
+	        
 //Validation for super admin role
 	        User user2=null;
 	        List<Authority> role=authorityRepository.findAll();
 	        String name=role.get(0).getName();
-	       
+	        String name1=role.get(1).getName();
+	        String name2=role.get(2).getName();
+	        String name3=role.get(3).getName();
 	        List<String> n=new ArrayList<String>();
 	        n.add(name);
+	       
 	        
 	        List<Authority> addAuthorities=authorityRepository.find(user.getRole());
 	        		
@@ -114,6 +131,7 @@ public class UserDetailsServiceImpl implements UserDetailsService,UserService {
 	        	if(n.equals(user.getRole())){
 	        		
 	        	throw new ResourceNotFoundException("You can't add this role ");
+	        	
 	        	}
 	       
 	        else
@@ -121,14 +139,40 @@ public class UserDetailsServiceImpl implements UserDetailsService,UserService {
             user1.setAuthorities(addAuthorities);
            
            user2= repository.save(user1);
-           
-     	  MailData mail = new MailData();
-			 mail.setSubject("Welcome to Student Management System Program");
-	  mail.setToEmail(user.getEmailId());
-	  mail.setContent("You were added by "+n+"\n" +"Username :"+user.getUsername() +"\n"+ "password :"+pass);
-	  emailService.sendEmail(mail);
-	  return user2;
+         
 	        }
+	  	/*	List<Authority> listAuList=authorityRepository.findAll();
+	        List<Authority> addList=authorityRepository.find(user.getRole());
+	       
+	        User user2=null;
+	       for(int i=0;i<listAuList.size();i++)
+	       { 
+	      	 
+	      	if(user.getRole().equals(listAuList.get(i).getAuthority()))
+	      	 {
+	      		 System.out.println("if manin "+user.getRole());
+	      		
+	      		 if(user.getRole().equals(listAuList.get(0).getAuthority()))
+	      			{
+	      			
+	      			 System.out.println(listAuList.get(i).getAuthority()+"inner if");
+	      			 throw new ResourceNotFoundException("u cant add");
+	      		 }
+	      		 else {
+	      			
+	          		 user1.setAuthorities(addList);
+	          			user2= repository.save(user1);
+	          			System.out.println("save");
+	      		 }
+	      		
+	      	 }
+	      	 }*/
+	        	 MailData mail = new MailData();
+				 mail.setSubject("Welcome to Student Management System Program");
+		  mail.setToEmail(user.getEmailId());
+		  mail.setContent("You were added by "+u.getUsername()+" : "+"("+user.getRole()+")"+"\n" +"Username :"+user.getUsername() +"\n"+ "password :"+pass);
+		  emailService.sendEmail(mail);
+		  return user2;
 	        }
 	
 	

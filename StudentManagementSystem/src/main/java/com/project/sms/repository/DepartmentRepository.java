@@ -18,4 +18,6 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
 	//List<Department> find(DepartmentDto departmentDto);
 	@Query(value="select *from Department d where d.department_name in(:name)",nativeQuery = true)
 List<Department> findByName(@Param("name") List<String>  name);
+
+	//List<College> findByName(String name);
 }

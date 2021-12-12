@@ -53,5 +53,4 @@ private User user;
 @JsonIgnore
 private User hoduser;
 
-
 }
