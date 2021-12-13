@@ -45,7 +45,7 @@ public class College {
     @Column(name = "college_code")
     private String code;
     
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinTable(name = "college_department", 
 	joinColumns = @JoinColumn(name = "college_id", referencedColumnName = "id"), 
 	inverseJoinColumns = @JoinColumn(name = "department_id", referencedColumnName = "id"))
@@ -53,10 +53,13 @@ public class College {
     @JsonIgnore
     private List<Department> department;
     
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn
 	@JsonIgnore
 	private User user;
+    
+    
+    
     
 
 }

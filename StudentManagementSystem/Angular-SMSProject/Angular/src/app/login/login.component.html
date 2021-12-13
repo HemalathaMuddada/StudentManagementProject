@@ -1,0 +1,40 @@
+<p>login works!</p>
+<h2>LogIn Form</h2>
+<div class="container">
+    <form #loginform="ngForm" (ngSubmit)="loginuser()">
+        {{loginform.form.valid}}
+        <small class="text-danger">{{ msg }}</small>
+       <div class="from-group">
+             <label for="username"> UserName :</label>
+             <input type="username" class="form-control" id="username" name="UserName"  
+            placeholder="Enter Username" [(ngModel)]="user.username" 
+             #username="ngModel" 
+            [class.is-invalid]="username.invalid && username.touched"
+            />
+           <!-- <small class="text-danger" [class.d-none]="emailId.valid || emailId.untouched">
+                Email Id field is Required</small>-->
+        
+         
+         <div *ngIf="username.errors &&  (username.invalid && username.touched)">
+            <small class="text-danger" *ngIf="username.errors?.['required']">Username field is required</small>
+            <!--<small class="text-danger" *ngIf="username.errors?.['pattern']">Username valid email id</small>-->
+         </div>
+        </div>
+        <div class="from-group">
+            <label for="password">Password :</label>
+            <input class="form-control" id="password" name="password" type="password" 
+            placeholder="Enter Password" [(ngModel)]="user.password"
+            #password="ngModel" required 
+            [class.is-invalid]="password.invalid && password.touched"
+            />
+            <small class="text-danger" [class.d-none]="password.valid || password.untouched">
+                Password field is Required</small>
+        </div>
+        <div class="checkbox">
+            <label><input type="checkbox" name="remember">Remember Me</label>
+        </div>
+        <div>
+            <button [disabled]="loginform.form.invalid" type="submit" class="btn btn-info">LogIn</button>
+        </div>
+    </form>
+    </div>

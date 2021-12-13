@@ -21,6 +21,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -66,18 +67,22 @@ public class User implements UserDetails, Serializable {
 	private String password;
 	
 	@Column(name="first_name")
-	@NotEmpty(message="firstname must not be null")
+	@NotEmpty(message="firstname required")
+	@NotNull
 	private String firstName;
 	
 	@Column(name="last_name")
 	@NotEmpty(message="lastname must not be null")
+	@NotNull
 	private String lastName;
 	
 	@ValidEmail
+	@NotNull
 	@NotEmpty(message="please provide email it should not be null")
 	@Column(name="email",unique = true)
 	private String email;
 	
+	@NotNull(message="please provide role")
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_authority", 
 		joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 

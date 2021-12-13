@@ -21,7 +21,10 @@ public class UserDto {
     private String username;
     private String password;
     private String emailId;
-    private List<String> role;
+    private String role;
+    
+    private Orgnaizationdto orgnaizationdto;
+    private DepartmentDto departmentDto;
 	
 	
    // private boolean isPresent;

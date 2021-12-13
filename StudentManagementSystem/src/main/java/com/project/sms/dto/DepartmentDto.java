@@ -11,8 +11,6 @@ public class DepartmentDto {
 private String name;
 private String code;
 
-
-
 private UserDto userDto;
 private String username;
 }

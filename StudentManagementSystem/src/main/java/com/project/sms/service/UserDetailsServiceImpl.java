@@ -80,7 +80,7 @@ public class UserDetailsServiceImpl implements UserDetailsService,UserService {
 	public User create(UserDto user)throws Exception {
 	        User userWithDuplicateUsername = repository.findByUsername(user.getUsername());
 	        if(userWithDuplicateUsername != null && user.getId() != userWithDuplicateUsername.getId()) {
-	          //  log.error(String.format("Duplicate username %", user.getUsername()));
+	          
 	            throw new UserAlreadyExistException("Duplicate username.");
 	        }
 	        User user1 = new User();
@@ -95,10 +95,7 @@ public class UserDetailsServiceImpl implements UserDetailsService,UserService {
 	        
 	        user1.setPassword(encodedPassword);
 	                   
-	        /* if (user.isPresent()) {
-				throw new UserAlreadyExistException("User already exisits"+user.getUsername());
-				
-			}*/
+	        
 	        
 	        User u= null;
 	  		
@@ -117,56 +114,41 @@ public class UserDetailsServiceImpl implements UserDetailsService,UserService {
 	        User user2=null;
 	        List<Authority> role=authorityRepository.findAll();
 	        String name=role.get(0).getName();
-	        String name1=role.get(1).getName();
-	        String name2=role.get(2).getName();
-	        String name3=role.get(3).getName();
+	       
 	        List<String> n=new ArrayList<String>();
 	        n.add(name);
-	       
-	        
-	        List<Authority> addAuthorities=authorityRepository.find(user.getRole());
-	        		
-	       
-	    
-	        	if(n.equals(user.getRole())){
-	        		
-	        	throw new ResourceNotFoundException("You can't add this role ");
-	        	
-	        	}
-	       
-	        else
-	        {
-            user1.setAuthorities(addAuthorities);
-           
-           user2= repository.save(user1);
-         
-	        }
-	  	/*	List<Authority> listAuList=authorityRepository.findAll();
-	        List<Authority> addList=authorityRepository.find(user.getRole());
-	       
-	        User user2=null;
+
+	  		
+	        List<Authority> listAuList=authorityRepository.findAll();
+	        List<Authority> addList=authorityRepository.find(user.getRole().toUpperCase());
 	       for(int i=0;i<listAuList.size();i++)
 	       { 
 	      	 
-	      	if(user.getRole().equals(listAuList.get(i).getAuthority()))
+	      	if(user.getRole().equalsIgnoreCase(listAuList.get(i).getAuthority()))
 	      	 {
 	      		 System.out.println("if manin "+user.getRole());
 	      		
-	      		 if(user.getRole().equals(listAuList.get(0).getAuthority()))
+	      		 if(user.getRole().equalsIgnoreCase(listAuList.get(0).getAuthority()))
 	      			{
 	      			
 	      			 System.out.println(listAuList.get(i).getAuthority()+"inner if");
 	      			 throw new ResourceNotFoundException("u cant add");
 	      		 }
-	      		 else {
+	      		 
+	      		 else if(listAuList.get(0).getAuthority()!=user.getRole()&&user.getRole().equals(listAuList.get(1).getAuthority())){
 	      			
 	          		 user1.setAuthorities(addList);
 	          			user2= repository.save(user1);
 	          			System.out.println("save");
+	          			
 	      		 }
 	      		
+	      		 
+	      		 
+	      		 
+	      		
 	      	 }
-	      	 }*/
+	      	 }
 	        	 MailData mail = new MailData();
 				 mail.setSubject("Welcome to Student Management System Program");
 		  mail.setToEmail(user.getEmailId());

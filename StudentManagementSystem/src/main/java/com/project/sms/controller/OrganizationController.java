@@ -69,7 +69,6 @@ public class OrganizationController {
 		
 		}
 	
-
 	  @DeleteMapping(value="/{id}")
 	 @ResponseStatus(value = HttpStatus.OK)
 	 public HttpStatus delete(@PathVariable Long id) {

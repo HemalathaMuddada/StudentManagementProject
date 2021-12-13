@@ -62,9 +62,12 @@ private EmailService emailService;
         System.out.println(pass);
         
         user1.setPassword(encodedPassword);
+        User u= null;
+  		
                                                                                                                                                                                         
 //Validation for super admin role
         User user2=null;
+        
         List<Authority> role=authorityRepository.findAll();
         String name=role.get(1).getName();
         List<String> n=new ArrayList<String>();
@@ -86,21 +89,17 @@ private EmailService emailService;
 			  mail.setToEmail(user.getEmailId());
 			  mail.setContent("You were added by "+n+"\n" +"Username :"+user.getUsername() +"\n"+ "password :"+pass);
 			  emailService.sendEmail(mail);
-			 
-	
-		
-				
-			  User u= null;
-			  		
-			  		Object users = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-			  		if (users instanceof UserDetails) {
-			  		  String username = ((UserDetails)users).getUsername();
-			  		  u=this.repository.findByUsername(username);
-			  		  department.setHoduser(u);
-			  		} else {
-			  		  String username = users.toString();
-			  	}
+		  		Object users = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		  		if (users instanceof UserDetails) {
+		  		  String username = ((UserDetails)users).getUsername();
+		  		  u=this.repository.findByUsername(username);
+		  		  department.setUser(u);
+		  		} else {
+		  		  String username = users.toString();
+		  		  
+		  	}
 			  		
 			  		department.setHoduser(user2);
 			  		return departmentRepository.save(department);

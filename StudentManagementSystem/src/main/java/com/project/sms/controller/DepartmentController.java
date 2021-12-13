@@ -34,7 +34,7 @@ public class DepartmentController {
 		
 		Department department=this.departmentService.create(departmentDto);
 		
-		return new ResponseEntity<>( department,HttpStatus.CREATED);
+		return new ResponseEntity<>( department,HttpStatus.OK);
 		
 	}
 	
