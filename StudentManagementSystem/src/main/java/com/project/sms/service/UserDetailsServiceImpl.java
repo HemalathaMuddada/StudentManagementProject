@@ -143,16 +143,13 @@ public class UserDetailsServiceImpl implements UserDetailsService,UserService {
 	          			
 	      		 }
 	      		
-	      		 
-	      		 
-	      		 
 	      		
 	      	 }
 	      	 }
 	        	 MailData mail = new MailData();
 				 mail.setSubject("Welcome to Student Management System Program");
 		  mail.setToEmail(user.getEmailId());
-		  mail.setContent("You were added by "+u.getUsername()+" : "+"("+user.getRole()+")"+"\n" +"Username :"+user.getUsername() +"\n"+ "password :"+pass);
+		  mail.setContent("You were added by "+" : "+"("+user.getRole()+")"+"\n" +"Username :"+user.getUsername() +"\n"+ "password :"+pass);
 		  emailService.sendEmail(mail);
 		  return user2;
 	        }
@@ -177,12 +174,18 @@ Optional<User> users=this.repository.findById(user.getId());
 			u.setLastName(user.getLastName());
 			u.setEmail(user.getEmailId());
 		    u.setPassword(new BCryptPasswordEncoder(8).encode(user.getPassword()));
-		    repository.save(u);
+		   
+		  //  repository.save(u);
+		  
+	  repository.save(u);
+	  
 		    return u;
 		}
 		else {
 			throw new UserNotFoundException("user not found with id" + user.getId());
 		}
+		
+
 		
 	}
 	@Override

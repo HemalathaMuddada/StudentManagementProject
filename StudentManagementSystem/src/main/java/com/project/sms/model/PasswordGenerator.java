@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import com.project.sms.validation.ValidPassword;
 
-@ValidPassword
 @Component("RandomPassword")
 public class PasswordGenerator {
 	public String generateRandomPassword(int len) {
